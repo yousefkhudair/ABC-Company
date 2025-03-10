@@ -59,15 +59,25 @@ export default function StatusForm() {
         <RadioGroup
           value={searchType}
           onValueChange={(value: 'cities' | 'flightNumber') => setSearchType(value)}
-          className="grid grid-cols-2 gap-4 mb-6"
+          className="flex items-center space-x-4 pt-1"
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="cities" id="cities" />
-            <label htmlFor="cities">Cities</label>
+            <label
+              htmlFor="cities"
+              className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Cities
+            </label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="flightNumber" id="flightNumber" />
-            <label htmlFor="flightNumber">Flight number</label>
+            <label
+              htmlFor="flightNumber"
+              className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Flight number
+            </label>
           </div>
         </RadioGroup>
 

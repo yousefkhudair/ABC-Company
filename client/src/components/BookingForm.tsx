@@ -64,25 +64,31 @@ export default function BookingForm() {
           control={form.control}
           name="tripType"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="space-y-3">
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex space-x-4"
+                  className="flex items-center space-x-4 pt-1"
                 >
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="roundTrip" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Round trip</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <RadioGroupItem value="oneWay" />
-                    </FormControl>
-                    <FormLabel className="font-normal">One way</FormLabel>
-                  </FormItem>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="roundTrip" id="roundTrip" />
+                    <label
+                      htmlFor="roundTrip"
+                      className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Round trip
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="oneWay" id="oneWay" />
+                    <label
+                      htmlFor="oneWay"
+                      className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      One way
+                    </label>
+                  </div>
                 </RadioGroup>
               </FormControl>
             </FormItem>
