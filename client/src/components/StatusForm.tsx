@@ -29,9 +29,7 @@ export default function StatusForm() {
 
   const formatSelectedDate = (date: Date | undefined) => {
     if (!date) return undefined;
-    // Create a new date object at noon to avoid timezone issues
-    const d = new Date(date);
-    d.setHours(12, 0, 0, 0);
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     return d;
   };
 
@@ -147,7 +145,8 @@ export default function StatusForm() {
                     selected={field.value ? formatSelectedDate(new Date(field.value)) : undefined}
                     onSelect={(date) => {
                       if (date) {
-                        field.onChange(format(date, "yyyy-MM-dd"));
+                        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+                        field.onChange(format(utcDate, "yyyy-MM-dd"));
                         setIsCalendarOpen(false);
                       }
                     }}
