@@ -7,7 +7,7 @@ const destinations = [
   {
     id: 1,
     name: "Paris, France",
-    image: "https://images.unsplash.com/photo-1554366347-897a5113f6ab",
+    image: "/paris.jpg",
     price: "From $399",
   },
   {
