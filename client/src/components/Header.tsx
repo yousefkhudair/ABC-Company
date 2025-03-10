@@ -15,7 +15,9 @@ export default function Header() {
               <a className="text-gray-600 hover:text-primary">Plan travel</a>
             </Link>
             <Link href="/info">
-              <a className="text-gray-600 hover:text-primary">Travel information</a>
+              <a className="text-gray-600 hover:text-primary">
+                Travel information
+              </a>
             </Link>
             <Link href="/deals">
               <a className="text-gray-600 hover:text-primary">Deals</a>
