@@ -40,7 +40,7 @@ Before you begin, ensure you have the following installed:
 
 ## Configuration
 
-### LaunchDarkly Setup
+### LaunchDarkly Setup (Required)
 
 This project uses LaunchDarkly for feature flagging. To set it up:
 
@@ -52,6 +52,13 @@ This project uses LaunchDarkly for feature flagging. To set it up:
    ```
    VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
    ```
+
+**Important for Local Development:**
+- Ensure you've created the `.env` file from `.env.example` with a valid LaunchDarkly Client-Side ID
+- Feature flags will only work if LaunchDarkly can be reached from your environment
+- If working behind a corporate firewall, ensure outbound connections to `clientstream.launchdarkly.com` are allowed
+- For testing on localhost, you may need to configure targeting rules in your LaunchDarkly dashboard to ensure your local users receive the correct flag values
+- When testing locally, check browser console logs for any LaunchDarkly connection errors
 
 ## Running the Application
 
