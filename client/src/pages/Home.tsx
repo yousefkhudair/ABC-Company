@@ -12,7 +12,13 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         <div className="relative">
-          <div className="absolute inset-0 bg-primary/90" />
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: 'url("/nyc.jpg")',
+            }}
+          />
+          <div className="absolute inset-0 bg-black/50" /> {/* Darker overlay for better text readability */}
           <div className="container relative mx-auto px-4 py-24 text-white">
             <h1 className="text-5xl font-bold mb-4">Explore a new city</h1>
             <p className="text-xl mb-2">from $115* one way</p>
