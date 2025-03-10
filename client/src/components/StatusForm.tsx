@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
+import { format, parseISO, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -23,15 +23,14 @@ export default function StatusForm() {
     resolver: zodResolver(flightStatus),
     defaultValues: {
       flightNumber: "",
-      date: format(new Date(), "yyyy-MM-dd"),
+      date: format(startOfDay(new Date()), "yyyy-MM-dd"),
     },
   });
 
   const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
     if (!date) return;
-    // Set time to noon to avoid timezone issues
-    const selectedDate = new Date(date);
-    selectedDate.setHours(12);
+    // Ensure we're working with the start of the selected day
+    const selectedDate = startOfDay(date);
     onChange(format(selectedDate, "yyyy-MM-dd"));
   };
 
@@ -133,7 +132,7 @@ export default function StatusForm() {
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "MMM d, yyyy")
+                        format(parseISO(field.value), "MMM d, yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -144,7 +143,7 @@ export default function StatusForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
+                    selected={field.value ? parseISO(field.value) : undefined}
                     onSelect={(date) => {
                       handleDateSelect(date, field.onChange);
                       setIsCalendarOpen(false);

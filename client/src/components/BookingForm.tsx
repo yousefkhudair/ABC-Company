@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
+import { format, parseISO, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -26,16 +26,15 @@ export default function BookingForm() {
       passengers: 1,
       origin: "",
       destination: "",
-      departDate: format(new Date(), "yyyy-MM-dd"),
-      returnDate: format(new Date(), "yyyy-MM-dd"),
+      departDate: format(startOfDay(new Date()), "yyyy-MM-dd"),
+      returnDate: format(startOfDay(new Date()), "yyyy-MM-dd"),
     },
   });
 
   const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
     if (!date) return;
-    // Set time to noon to avoid timezone issues
-    const selectedDate = new Date(date);
-    selectedDate.setHours(12,0,0,0);
+    // Ensure we're working with the start of the selected day
+    const selectedDate = startOfDay(date);
     onChange(format(selectedDate, "yyyy-MM-dd"));
   };
 
@@ -151,7 +150,7 @@ export default function BookingForm() {
                         )}
                       >
                         {field.value ? (
-                          format(new Date(field.value), "MMM d, yyyy")
+                          format(parseISO(field.value), "MMM d, yyyy")
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -162,13 +161,13 @@ export default function BookingForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value ? new Date(field.value) : undefined}
+                      selected={field.value ? parseISO(field.value) : undefined}
                       onSelect={(date) => {
                         handleDateSelect(date, field.onChange);
                         setDepartDateOpen(false);
                       }}
                       disabled={(date) =>
-                        date < new Date() || date < new Date("1900-01-01")
+                        date < startOfDay(new Date()) || date < new Date("1900-01-01")
                       }
                       initialFocus
                     />
@@ -197,7 +196,7 @@ export default function BookingForm() {
                           )}
                         >
                           {field.value ? (
-                            format(new Date(field.value), "MMM d, yyyy")
+                            format(parseISO(field.value), "MMM d, yyyy")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -208,13 +207,13 @@ export default function BookingForm() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
+                        selected={field.value ? parseISO(field.value) : undefined}
                         onSelect={(date) => {
                           handleDateSelect(date, field.onChange);
                           setReturnDateOpen(false);
                         }}
                         disabled={(date) =>
-                          date < new Date(form.watch("departDate")) ||
+                          date < parseISO(form.watch("departDate")) ||
                           date < new Date("1900-01-01")
                         }
                         initialFocus
