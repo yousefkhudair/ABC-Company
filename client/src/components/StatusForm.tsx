@@ -27,6 +27,14 @@ export default function StatusForm() {
     },
   });
 
+  const formatSelectedDate = (date: Date | undefined) => {
+    if (!date) return undefined;
+    // Create a new date object at noon to avoid timezone issues
+    const d = new Date(date);
+    d.setHours(12, 0, 0, 0);
+    return d;
+  };
+
   async function onSubmit(data: FlightStatus) {
     setIsLoading(true);
     try {
@@ -136,7 +144,7 @@ export default function StatusForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
+                    selected={field.value ? formatSelectedDate(new Date(field.value)) : undefined}
                     onSelect={(date) => {
                       if (date) {
                         field.onChange(format(date, "yyyy-MM-dd"));
