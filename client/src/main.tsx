@@ -6,6 +6,11 @@ import "./index.css";
 
 async function initLD() {
   try {
+    // More detailed logging for debugging
+    console.log("Environment variables available:", {
+      VITE_LAUNCHDARKLY_CLIENT_ID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
+    });
+    
     if (!import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID) {
       throw new Error("LaunchDarkly client ID not found");
     }
@@ -23,7 +28,8 @@ async function initLD() {
 
     render(LDProvider);
   } catch (error) {
-    console.warn("LaunchDarkly initialization failed:", error);
+    console.error("LaunchDarkly initialization failed:", error);
+    // Still render the app without feature flags
     render();
   }
 }
