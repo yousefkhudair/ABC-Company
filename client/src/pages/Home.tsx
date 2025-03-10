@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main>
         {/* Hero Section */}
         <div className="relative">
@@ -21,16 +21,26 @@ export default function Home() {
 
         {/* Booking Section */}
         <div className="container mx-auto px-4 -mt-16 relative z-10">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <Tabs defaultValue="book">
-              <TabsList className="mb-6">
-                <TabsTrigger value="book">Book</TabsTrigger>
-                <TabsTrigger value="status">Flight Status</TabsTrigger>
+          <div className="bg-white rounded-lg shadow-lg">
+            <Tabs defaultValue="book" className="w-full">
+              <TabsList className="w-full grid grid-cols-2 rounded-t-lg bg-gray-50">
+                <TabsTrigger 
+                  value="book" 
+                  className="data-[state=active]:bg-white data-[state=active]:shadow-none py-4"
+                >
+                  Book
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="status" 
+                  className="data-[state=active]:bg-white data-[state=active]:shadow-none py-4"
+                >
+                  Flight Status
+                </TabsTrigger>
               </TabsList>
-              <TabsContent value="book">
+              <TabsContent value="book" className="p-6">
                 <BookingForm />
               </TabsContent>
-              <TabsContent value="status">
+              <TabsContent value="status" className="p-6">
                 <StatusForm />
               </TabsContent>
             </Tabs>
