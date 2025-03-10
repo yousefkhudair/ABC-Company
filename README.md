@@ -28,6 +28,10 @@ This project uses LaunchDarkly for feature flagging. To use it locally:
    ```
    VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
    ```
+6. Install the LaunchDarkly React SDK (already included in package.json):
+   ```bash
+   npm install launchdarkly-react-client-sdk
+   ```
 
 ## Installation
 
