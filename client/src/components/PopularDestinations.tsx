@@ -19,7 +19,7 @@ const destinations = [
   {
     id: 3,
     name: "Venice, Italy",
-    image: "https://images.unsplash.com/photo-1606944331341-72bf6523ff5e",
+    image: "/Venice.jpg",
     price: "From $449",
   },
   {
