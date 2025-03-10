@@ -11,6 +11,9 @@ export default function Home() {
   try {
     const flags = useFlags();
     showFlightStatus = flags.showFlightStatus ?? false;
+    console.log('LaunchDarkly flags loaded:', flags);
+    console.log('showFlightStatus flag value:', showFlightStatus);
+    console.log('Using LaunchDarkly client ID:', import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID);
   } catch (error) {
     console.warn('LaunchDarkly flags not available:', error);
   }
