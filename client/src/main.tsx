@@ -1,33 +1,34 @@
 import { createRoot } from "react-dom/client";
-import React from 'react';
-import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
+import React from "react";
+import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 import App from "./App";
 import "./index.css";
 
 async function initLD() {
   try {
     if (!import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID) {
-      throw new Error('LaunchDarkly client ID not found');
+      throw new Error("LaunchDarkly client ID not found");
     }
 
     const LDProvider = await asyncWithLDProvider({
       clientSideID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
       options: {
-        bootstrap: 'localStorage',
-        baseUrl: 'https://app.launchdarkly.com'
+        bootstrap: "localStorage",
+        baseUrl: "https://app.launchdarkly.com",
       },
       flags: {
-        showFlightStatus: false
-      }
+        showFlightStatus: false,
+      },
     });
 
     render(LDProvider);
   } catch (error) {
-    console.warn('LaunchDarkly initialization failed:', error);
+    console.warn("LaunchDarkly initialization failed:", error);
     render();
   }
 }
 
+// Separate render function for better error handling
 function render(LDProvider?: React.ComponentType<React.PropsWithChildren<{}>>) {
   const AppWithProvider = LDProvider ? (
     <React.StrictMode>

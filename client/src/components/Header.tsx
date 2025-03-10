@@ -9,7 +9,7 @@ export default function Header() {
           <Link href="/">
             <a className="text-2xl font-bold text-primary">ABC Company</a>
           </Link>
-          
+
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="/plan">
               <a className="text-gray-600 hover:text-primary">Plan travel</a>
@@ -17,8 +17,8 @@ export default function Header() {
             <Link href="/info">
               <a className="text-gray-600 hover:text-primary">Travel information</a>
             </Link>
-            <Link href="/advantage">
-              <a className="text-gray-600 hover:text-primary">AAdvantage®</a>
+            <Link href="/deals">
+              <a className="text-gray-600 hover:text-primary">Deals</a>
             </Link>
           </nav>
 
