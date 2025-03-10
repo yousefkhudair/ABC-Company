@@ -6,24 +6,22 @@ export default function Header() {
     <header className="bg-white border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/">
-            <a className="text-2xl font-bold text-primary">ABC Company</a>
+          <Link href="/" className="text-2xl font-bold text-primary">
+            ABC Company
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/plan">
-              <a className="text-gray-600 hover:text-primary">Plan travel</a>
+            <Link href="/plan" className="text-gray-600 hover:text-primary">
+              Plan travel
             </Link>
-            <Link href="/info">
-              <a className="text-gray-600 hover:text-primary">
-                Travel information
-              </a>
+            <Link href="/info" className="text-gray-600 hover:text-primary">
+              Travel information
             </Link>
-            <Link href="/deals">
-              <a className="text-gray-600 hover:text-primary">Deals</a>
+            <Link href="/deals" className="text-gray-600 hover:text-primary">
+              Deals
             </Link>
-            <Link href="/help">
-              <a className="text-gray-600 hover:text-primary">Help</a>
+            <Link href="/help" className="text-gray-600 hover:text-primary">
+              Help
             </Link>
           </nav>
 
