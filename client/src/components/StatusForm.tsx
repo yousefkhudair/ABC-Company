@@ -27,12 +27,6 @@ export default function StatusForm() {
     },
   });
 
-  const formatSelectedDate = (date: Date | undefined) => {
-    if (!date) return undefined;
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    return d;
-  };
-
   async function onSubmit(data: FlightStatus) {
     setIsLoading(true);
     try {
@@ -142,13 +136,10 @@ export default function StatusForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value ? formatSelectedDate(new Date(field.value)) : undefined}
+                    selected={new Date(field.value)}
                     onSelect={(date) => {
-                      if (date) {
-                        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-                        field.onChange(format(utcDate, "yyyy-MM-dd"));
-                        setIsCalendarOpen(false);
-                      }
+                      field.onChange(format(date!, "yyyy-MM-dd"));
+                      setIsCalendarOpen(false);
                     }}
                     disabled={(date) => date < new Date("1900-01-01")}
                     initialFocus

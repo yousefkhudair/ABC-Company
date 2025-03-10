@@ -31,12 +31,6 @@ export default function BookingForm() {
     },
   });
 
-  const formatSelectedDate = (date: Date | undefined) => {
-    if (!date) return undefined;
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    return d;
-  };
-
   async function onSubmit(data: FlightSearch) {
     setIsLoading(true);
     try {
@@ -160,13 +154,10 @@ export default function BookingForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value ? formatSelectedDate(new Date(field.value)) : undefined}
+                      selected={new Date(field.value)}
                       onSelect={(date) => {
-                        if (date) {
-                          const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-                          field.onChange(format(utcDate, "yyyy-MM-dd"));
-                          setDepartDateOpen(false);
-                        }
+                        field.onChange(format(date!, "yyyy-MM-dd"));
+                        setDepartDateOpen(false);
                       }}
                       disabled={(date) =>
                         date < new Date() || date < new Date("1900-01-01")
@@ -209,13 +200,10 @@ export default function BookingForm() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value ? formatSelectedDate(new Date(field.value)) : undefined}
+                        selected={new Date(field.value)}
                         onSelect={(date) => {
-                          if (date) {
-                            const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-                            field.onChange(format(utcDate, "yyyy-MM-dd"));
-                            setReturnDateOpen(false);
-                          }
+                          field.onChange(format(date!, "yyyy-MM-dd"));
+                          setReturnDateOpen(false);
                         }}
                         disabled={(date) =>
                           date < new Date(form.watch("departDate")) ||
