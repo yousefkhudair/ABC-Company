@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parseISO, startOfDay } from "date-fns";
@@ -12,12 +12,14 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { flightSearch, type FlightSearch } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { useBookingForm } from "@/lib/useBookingForm";
 
 export default function BookingForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [departDateOpen, setDepartDateOpen] = useState(false);
   const [returnDateOpen, setReturnDateOpen] = useState(false);
+  const { setForm } = useBookingForm();
 
   const form = useForm<FlightSearch>({
     resolver: zodResolver(flightSearch),
@@ -30,6 +32,12 @@ export default function BookingForm() {
       returnDate: format(startOfDay(new Date()), "yyyy-MM-dd"),
     },
   });
+
+  // Register the form with the store when the component mounts
+  useEffect(() => {
+    setForm(form);
+    return () => setForm(null); // Cleanup when unmounting
+  }, [form, setForm]);
 
   const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
     if (!date) return;

@@ -1,17 +1,24 @@
 import { create } from 'zustand';
+import { UseFormReturn } from 'react-hook-form';
+import { FlightSearch } from '@shared/schema';
 
 type BookingFormState = {
+  form: UseFormReturn<FlightSearch> | null;
+  setForm: (form: UseFormReturn<FlightSearch>) => void;
   setDestination: (destination: string) => void;
 };
 
-export const useBookingForm = create<BookingFormState>((set) => ({
+export const useBookingForm = create<BookingFormState>((set, get) => ({
+  form: null,
+  setForm: (form) => set({ form }),
   setDestination: (destination) => {
-    // Find all form inputs for destination and set their value
-    const inputs = document.querySelectorAll('input[placeholder="City or airport"]');
-    inputs.forEach((input: HTMLInputElement) => {
-      input.value = destination;
-      // Trigger change event to update form state
-      input.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+    const form = get().form;
+    if (form) {
+      form.setValue('destination', destination, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    }
   },
 }));
