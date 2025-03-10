@@ -4,35 +4,44 @@ import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
 import App from "./App";
 import "./index.css";
 
-// Initialize LaunchDarkly asynchronously
-const initLD = async () => {
+async function initLD() {
   try {
+    if (!import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID) {
+      throw new Error('LaunchDarkly client ID not found');
+    }
+
     const LDProvider = await asyncWithLDProvider({
       clientSideID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
       options: {
-        bootstrap: 'localStorage'
+        bootstrap: 'localStorage',
+        baseUrl: 'https://app.launchdarkly.com'
       },
       flags: {
-        showFlightStatus: false // Default value if flag isn't found
+        showFlightStatus: false
       }
     });
 
-    createRoot(document.getElementById("root")!).render(
-      <React.StrictMode>
-        <LDProvider>
-          <App />
-        </LDProvider>
-      </React.StrictMode>
-    );
+    render(LDProvider);
   } catch (error) {
-    console.error('Failed to initialize LaunchDarkly:', error);
-    // Render the app without LaunchDarkly if initialization fails
-    createRoot(document.getElementById("root")!).render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
+    console.warn('LaunchDarkly initialization failed:', error);
+    render();
   }
-};
+}
+
+function render(LDProvider?: React.ComponentType<React.PropsWithChildren<{}>>) {
+  const AppWithProvider = LDProvider ? (
+    <React.StrictMode>
+      <LDProvider>
+        <App />
+      </LDProvider>
+    </React.StrictMode>
+  ) : (
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+
+  createRoot(document.getElementById("root")!).render(AppWithProvider);
+}
 
 initLD();

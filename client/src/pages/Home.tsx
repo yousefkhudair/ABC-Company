@@ -6,7 +6,14 @@ import PopularDestinations from "@/components/PopularDestinations";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
-  const { showFlightStatus } = useFlags();
+  // Safely access flags with a fallback
+  let showFlightStatus = false;
+  try {
+    const flags = useFlags();
+    showFlightStatus = flags.showFlightStatus ?? false;
+  } catch (error) {
+    console.warn('LaunchDarkly flags not available:', error);
+  }
 
   return (
     <div className="min-h-screen bg-background">
