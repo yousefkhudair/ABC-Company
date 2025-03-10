@@ -16,6 +16,19 @@ Before you begin, ensure you have the following installed:
 - Node.js (v20 or later)
 - npm (v9 or later)
 
+### LaunchDarkly Configuration
+
+This project uses LaunchDarkly for feature flagging. To use it locally:
+
+1. Create a LaunchDarkly account at [launchdarkly.com](https://launchdarkly.com)
+2. Create a new project in LaunchDarkly dashboard
+3. Create a feature flag named `showFlightStatus` (boolean type)
+4. Obtain your Client-Side ID from your LaunchDarkly project settings
+5. Create a `.env` file in the project root with:
+   ```
+   VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
+   ```
+
 ## Installation
 
 1. Clone the repository:
@@ -66,6 +79,7 @@ This will start the server on [http://localhost:5000](http://localhost:5000).
   - TailwindCSS
   - Shadcn/UI Components
   - Vite
+  - LaunchDarkly (Feature Flags)
 
 - **Backend**:
   - Express.js
