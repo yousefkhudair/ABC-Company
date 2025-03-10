@@ -25,7 +25,7 @@ const destinations = [
   {
     id: 4,
     name: "Dubai, UAE",
-    image: "https://images.unsplash.com/photo-1594661745200-810105bcf054",
+    image: "/dubai.jpg",
     price: "From $599",
   },
 ];
