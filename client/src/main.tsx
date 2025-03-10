@@ -24,7 +24,7 @@ async function initLD() {
       flags: {
         showFlightStatus: false,
       },
-    });
+    } as any);
 
     render(LDProvider);
   } catch (error) {
@@ -35,7 +35,7 @@ async function initLD() {
 }
 
 // Separate render function for better error handling
-function render(LDProvider?: React.ComponentType<React.PropsWithChildren<{}>>) {
+function render(LDProvider?: React.ComponentType<any>) {
   const AppWithProvider = LDProvider ? (
     <React.StrictMode>
       <LDProvider>
