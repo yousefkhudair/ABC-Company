@@ -13,7 +13,7 @@ const destinations = [
   {
     id: 2,
     name: "Santorini, Greece",
-    image: "https://images.unsplash.com/photo-1605130284535-11dd9eedc58a",
+    image: "/Santorini.jpg",
     price: "From $499",
   },
   {
