@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -115,7 +115,7 @@ export default function StatusForm() {
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP")
+                        format(new Date(field.value), "MMM d, yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -126,10 +126,12 @@ export default function StatusForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value)}
+                    selected={field.value ? new Date(field.value) : undefined}
                     onSelect={(date) => {
-                      field.onChange(format(date!, "yyyy-MM-dd"));
-                      setIsCalendarOpen(false);
+                      if (date) {
+                        field.onChange(format(date, "yyyy-MM-dd"));
+                        setIsCalendarOpen(false);
+                      }
                     }}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")

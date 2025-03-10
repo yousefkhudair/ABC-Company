@@ -16,6 +16,8 @@ import { useToast } from "@/hooks/use-toast";
 export default function BookingForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [departDateOpen, setDepartDateOpen] = useState(false);
+  const [returnDateOpen, setReturnDateOpen] = useState(false);
 
   const form = useForm<FlightSearch>({
     resolver: zodResolver(flightSearch),
@@ -124,7 +126,7 @@ export default function BookingForm() {
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Depart</FormLabel>
-                <Popover>
+                <Popover open={departDateOpen} onOpenChange={setDepartDateOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -135,7 +137,7 @@ export default function BookingForm() {
                         )}
                       >
                         {field.value ? (
-                          format(new Date(field.value), "PPP")
+                          format(new Date(field.value), "MMM d, yyyy")
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -146,15 +148,11 @@ export default function BookingForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={new Date(field.value)}
+                      selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => {
-                        field.onChange(format(date!, "yyyy-MM-dd"));
-                        const popover = document.querySelector('[data-radix-popper-content-id]');
-                        if (popover) {
-                          const closeButton = popover.querySelector('[aria-label="Close"]');
-                          if (closeButton instanceof HTMLElement) {
-                            closeButton.click();
-                          }
+                        if (date) {
+                          field.onChange(format(date, "yyyy-MM-dd"));
+                          setDepartDateOpen(false);
                         }
                       }}
                       disabled={(date) =>
@@ -176,7 +174,7 @@ export default function BookingForm() {
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Return</FormLabel>
-                  <Popover>
+                  <Popover open={returnDateOpen} onOpenChange={setReturnDateOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -187,7 +185,7 @@ export default function BookingForm() {
                           )}
                         >
                           {field.value ? (
-                            format(new Date(field.value), "PPP")
+                            format(new Date(field.value), "MMM d, yyyy")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -200,13 +198,9 @@ export default function BookingForm() {
                         mode="single"
                         selected={field.value ? new Date(field.value) : undefined}
                         onSelect={(date) => {
-                          field.onChange(date ? format(date, "yyyy-MM-dd") : "");
-                          const popover = document.querySelector('[data-radix-popper-content-id]');
-                          if (popover) {
-                            const closeButton = popover.querySelector('[aria-label="Close"]');
-                            if (closeButton instanceof HTMLElement) {
-                              closeButton.click();
-                            }
+                          if (date) {
+                            field.onChange(format(date, "yyyy-MM-dd"));
+                            setReturnDateOpen(false);
                           }
                         }}
                         disabled={(date) =>
