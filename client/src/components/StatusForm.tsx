@@ -27,6 +27,14 @@ export default function StatusForm() {
     },
   });
 
+  const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
+    if (!date) return;
+    // Set time to noon to avoid timezone issues
+    const selectedDate = new Date(date);
+    selectedDate.setHours(12);
+    onChange(format(selectedDate, "yyyy-MM-dd"));
+  };
+
   async function onSubmit(data: FlightStatus) {
     setIsLoading(true);
     try {
@@ -136,9 +144,9 @@ export default function StatusForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value)}
+                    selected={field.value ? new Date(field.value) : undefined}
                     onSelect={(date) => {
-                      field.onChange(format(date!, "yyyy-MM-dd"));
+                      handleDateSelect(date, field.onChange);
                       setIsCalendarOpen(false);
                     }}
                     disabled={(date) => date < new Date("1900-01-01")}

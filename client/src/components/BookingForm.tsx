@@ -31,6 +31,14 @@ export default function BookingForm() {
     },
   });
 
+  const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
+    if (!date) return;
+    // Set time to noon to avoid timezone issues
+    const selectedDate = new Date(date);
+    selectedDate.setHours(12,0,0,0);
+    onChange(format(selectedDate, "yyyy-MM-dd"));
+  };
+
   async function onSubmit(data: FlightSearch) {
     setIsLoading(true);
     try {
@@ -154,9 +162,9 @@ export default function BookingForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={new Date(field.value)}
+                      selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => {
-                        field.onChange(format(date!, "yyyy-MM-dd"));
+                        handleDateSelect(date, field.onChange);
                         setDepartDateOpen(false);
                       }}
                       disabled={(date) =>
@@ -200,9 +208,9 @@ export default function BookingForm() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={new Date(field.value)}
+                        selected={field.value ? new Date(field.value) : undefined}
                         onSelect={(date) => {
-                          field.onChange(format(date!, "yyyy-MM-dd"));
+                          handleDateSelect(date, field.onChange);
                           setReturnDateOpen(false);
                         }}
                         disabled={(date) =>
@@ -232,7 +240,7 @@ export default function BookingForm() {
                   min={1}
                   max={9}
                   {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
                 />
               </FormControl>
               <FormMessage />
