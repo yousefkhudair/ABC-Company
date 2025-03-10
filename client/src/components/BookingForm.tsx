@@ -10,18 +10,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { z } from "zod";
+import { flightSearch, type FlightSearch } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
-
-// Flight search schema
-const flightSearch = z.object({
-  tripType: z.enum(["roundTrip", "oneWay"]),
-  origin: z.string().min(1, "Origin is required"),
-  destination: z.string().min(1, "Destination is required"),
-  departDate: z.string(),
-  returnDate: z.string().optional(),
-  passengers: z.number().min(1).max(9),
-});
 
 export default function BookingForm() {
   const { toast } = useToast();
@@ -29,7 +19,7 @@ export default function BookingForm() {
   const [departDateOpen, setDepartDateOpen] = useState(false);
   const [returnDateOpen, setReturnDateOpen] = useState(false);
 
-  const form = useForm({
+  const form = useForm<FlightSearch>({
     resolver: zodResolver(flightSearch),
     defaultValues: {
       tripType: "roundTrip",
@@ -41,13 +31,14 @@ export default function BookingForm() {
     },
   });
 
-  const handleDateSelect = (date, onChange) => {
+  const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
     if (!date) return;
+    // Ensure we're working with the start of the selected day
     const selectedDate = startOfDay(date);
     onChange(format(selectedDate, "yyyy-MM-dd"));
   };
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FlightSearch) {
     setIsLoading(true);
     try {
       const res = await fetch("/api/flights/search", {
@@ -152,7 +143,7 @@ export default function BookingForm() {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
+                        variant={"outline"}
                         className={cn(
                           "w-full pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
@@ -198,7 +189,7 @@ export default function BookingForm() {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant="outline"
+                          variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"

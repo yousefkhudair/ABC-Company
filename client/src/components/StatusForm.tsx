@@ -10,16 +10,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { flightStatus } from "@shared/schema";
+import { flightStatus, type FlightStatus } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export default function StatusForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [searchType, setSearchType] = useState('cities');
+  const [searchType, setSearchType] = useState<'cities' | 'flightNumber'>('cities');
 
-  const form = useForm({
+  const form = useForm<FlightStatus>({
     resolver: zodResolver(flightStatus),
     defaultValues: {
       flightNumber: "",
@@ -27,14 +27,14 @@ export default function StatusForm() {
     },
   });
 
-  const handleDateSelect = (date, onChange) => {
+  const handleDateSelect = (date: Date | undefined, onChange: (value: string) => void) => {
     if (!date) return;
     // Ensure we're working with the start of the selected day
     const selectedDate = startOfDay(date);
     onChange(format(selectedDate, "yyyy-MM-dd"));
   };
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FlightStatus) {
     setIsLoading(true);
     try {
       const res = await fetch("/api/flights/status", {
@@ -65,7 +65,7 @@ export default function StatusForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <RadioGroup
           value={searchType}
-          onValueChange={(value) => setSearchType(value)}
+          onValueChange={(value: 'cities' | 'flightNumber') => setSearchType(value)}
           className="flex items-center space-x-4 pt-1"
         >
           <div className="flex items-center space-x-2">
@@ -125,7 +125,7 @@ export default function StatusForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant="outline"
+                      variant={"outline"}
                       className={cn(
                         "w-full pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"

@@ -1,7 +1,9 @@
-import { createServer } from "http";
-import { flightSearch, flightStatus } from "../shared/schema.js";
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { storage } from "./storage";
+import { flightSearch, flightStatus } from "@shared/schema";
 
-export async function registerRoutes(app) {
+export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/flights/search", async (req, res) => {
     try {
       const searchData = flightSearch.parse(req.body);

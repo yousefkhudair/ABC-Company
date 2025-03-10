@@ -7,7 +7,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/">
-            <a className="text-2xl font-bold text-primary">ABC Airlines</a>
+            <a className="text-2xl font-bold text-primary">ABC Company</a>
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6">
