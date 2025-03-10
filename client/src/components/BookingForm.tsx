@@ -147,7 +147,16 @@ export default function BookingForm() {
                     <Calendar
                       mode="single"
                       selected={new Date(field.value)}
-                      onSelect={(date) => field.onChange(format(date!, "yyyy-MM-dd"))}
+                      onSelect={(date) => {
+                        field.onChange(format(date!, "yyyy-MM-dd"));
+                        const popover = document.querySelector('[data-radix-popper-content-id]');
+                        if (popover) {
+                          const closeButton = popover.querySelector('[aria-label="Close"]');
+                          if (closeButton instanceof HTMLElement) {
+                            closeButton.click();
+                          }
+                        }
+                      }}
                       disabled={(date) =>
                         date < new Date() || date < new Date("1900-01-01")
                       }
@@ -190,9 +199,16 @@ export default function BookingForm() {
                       <Calendar
                         mode="single"
                         selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) =>
-                          field.onChange(date ? format(date, "yyyy-MM-dd") : "")
-                        }
+                        onSelect={(date) => {
+                          field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                          const popover = document.querySelector('[data-radix-popper-content-id]');
+                          if (popover) {
+                            const closeButton = popover.querySelector('[aria-label="Close"]');
+                            if (closeButton instanceof HTMLElement) {
+                              closeButton.click();
+                            }
+                          }
+                        }}
                         disabled={(date) =>
                           date < new Date(form.watch("departDate")) ||
                           date < new Date("1900-01-01")
