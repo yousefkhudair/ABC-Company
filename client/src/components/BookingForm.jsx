@@ -10,8 +10,18 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { flightSearch } from "@shared/schema";
+import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+
+// Flight search schema
+const flightSearch = z.object({
+  tripType: z.enum(["roundTrip", "oneWay"]),
+  origin: z.string().min(1, "Origin is required"),
+  destination: z.string().min(1, "Destination is required"),
+  departDate: z.string(),
+  returnDate: z.string().optional(),
+  passengers: z.number().min(1).max(9),
+});
 
 export default function BookingForm() {
   const { toast } = useToast();
@@ -33,7 +43,6 @@ export default function BookingForm() {
 
   const handleDateSelect = (date, onChange) => {
     if (!date) return;
-    // Ensure we're working with the start of the selected day
     const selectedDate = startOfDay(date);
     onChange(format(selectedDate, "yyyy-MM-dd"));
   };
