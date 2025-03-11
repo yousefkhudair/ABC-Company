@@ -4,17 +4,19 @@ import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 import App from "./App";
 import "./index.css";
 
-// Ensure we're explicitly reading from .env file and persist it
+// Load from .env file and maintain fallback for resilience
+// Using direct environment variable access with fallback for reliability
 const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID || '67ce189f69541009d2700800';
 
 async function initLD() {
   try {
     // More detailed logging for debugging
     console.log("All environment variables:", import.meta.env);
+    console.log("Direct env variable value:", import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID);
     
-    // Check for LaunchDarkly client ID
+    // Check for LaunchDarkly client ID with fallback
     const clientID = LAUNCHDARKLY_CLIENT_ID;
-    console.log("LaunchDarkly Client ID:", clientID);
+    console.log("LaunchDarkly Client ID with fallback:", clientID);
     
     if (!clientID) {
       throw new Error("LaunchDarkly client ID not found. Please ensure you have set VITE_LAUNCHDARKLY_CLIENT_ID in your .env file.");
