@@ -4,8 +4,8 @@ import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 import App from "./App";
 import "./index.css";
 
-// Ensure we're explicitly reading from .env file
-const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+// Ensure we're explicitly reading from .env file and persist it
+const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID || '67ce189f69541009d2700800';
 
 async function initLD() {
   try {

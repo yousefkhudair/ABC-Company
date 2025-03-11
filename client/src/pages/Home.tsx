@@ -8,8 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Home() {
   // Safely access flags with a fallback
   let showFlightStatus = false;
-  // Get client ID directly from .env
-  const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+  // Get client ID directly from .env with fallback
+  const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID || '67ce189f69541009d2700800';
   
   try {
     const flags = useFlags();
