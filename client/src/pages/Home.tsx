@@ -8,12 +8,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Home() {
   // Safely access flags with a fallback
   let showFlightStatus = false;
+  // Get client ID directly from .env
+  const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+  
   try {
     const flags = useFlags();
     showFlightStatus = flags.showFlightStatus ?? false;
     console.log('LaunchDarkly flags loaded:', flags);
     console.log('showFlightStatus flag value:', showFlightStatus);
-    console.log('Using LaunchDarkly client ID:', import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID);
+    console.log('Using LaunchDarkly client ID:', clientID);
+    
+    if (!clientID) {
+      console.warn('LaunchDarkly client ID not found in .env file');
+    }
   } catch (error) {
     console.warn('LaunchDarkly flags not available:', error);
   }

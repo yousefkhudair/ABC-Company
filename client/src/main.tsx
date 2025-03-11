@@ -4,13 +4,16 @@ import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 import App from "./App";
 import "./index.css";
 
+// Ensure we're explicitly reading from .env file
+const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+
 async function initLD() {
   try {
     // More detailed logging for debugging
     console.log("All environment variables:", import.meta.env);
     
     // Check for LaunchDarkly client ID
-    const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+    const clientID = LAUNCHDARKLY_CLIENT_ID;
     console.log("LaunchDarkly Client ID:", clientID);
     
     if (!clientID) {
@@ -22,6 +25,7 @@ async function initLD() {
       options: {
         bootstrap: "localStorage",
         baseUrl: "https://app.launchdarkly.com",
+        streaming: true
       },
       flags: {
         showFlightStatus: false,
