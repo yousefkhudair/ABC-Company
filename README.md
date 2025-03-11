@@ -1,4 +1,3 @@
-
 # Airline Navigator Web Application
 
 This is a full-stack web application built with React, TypeScript, Express, and Vite.
@@ -48,14 +47,12 @@ This project uses LaunchDarkly for feature flagging. To set it up:
 2. Create a new project in LaunchDarkly dashboard
 3. Create a feature flag named `showFlightStatus` (boolean type)
 4. Obtain your Client-Side ID from your LaunchDarkly project settings
-5. Create a `.env` file in the root directory by copying the `.env.example` file:
-   ```bash
-   cp .env.example .env
-   ```
-6. Open the `.env` file and replace the placeholder with your actual LaunchDarkly Client-Side ID:
+5. Open the `.env` file and replace the placeholder with your actual LaunchDarkly Client-Side ID:
    ```
    VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
    ```
+
+This application uses `dotenv` to reliably load environment variables in both development and production environments. The server-side code will automatically load variables from your `.env` file.
 
 **Important for Local Development:**
 - The LaunchDarkly integration is REQUIRED for this application to function properly
