@@ -7,16 +7,18 @@ import "./index.css";
 async function initLD() {
   try {
     // More detailed logging for debugging
-    console.log("Environment variables available:", {
-      VITE_LAUNCHDARKLY_CLIENT_ID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
-    });
+    console.log("All environment variables:", import.meta.env);
     
-    if (!import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID) {
-      throw new Error("LaunchDarkly client ID not found");
+    // Check for LaunchDarkly client ID
+    const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
+    console.log("LaunchDarkly Client ID:", clientID);
+    
+    if (!clientID) {
+      throw new Error("LaunchDarkly client ID not found. Please ensure you have set VITE_LAUNCHDARKLY_CLIENT_ID in your .env file.");
     }
 
     const LDProvider = await asyncWithLDProvider({
-      clientSideID: import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID,
+      clientSideID: clientID,
       options: {
         bootstrap: "localStorage",
         baseUrl: "https://app.launchdarkly.com",

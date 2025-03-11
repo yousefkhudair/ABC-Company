@@ -48,17 +48,23 @@ This project uses LaunchDarkly for feature flagging. To set it up:
 2. Create a new project in LaunchDarkly dashboard
 3. Create a feature flag named `showFlightStatus` (boolean type)
 4. Obtain your Client-Side ID from your LaunchDarkly project settings
-5. Update your `.env` file with your LaunchDarkly Client ID:
+5. Create a `.env` file in the root directory by copying the `.env.example` file:
+   ```bash
+   cp .env.example .env
+   ```
+6. Open the `.env` file and replace the placeholder with your actual LaunchDarkly Client-Side ID:
    ```
    VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
    ```
 
 **Important for Local Development:**
-- Ensure you've created the `.env` file from `.env.example` with a valid LaunchDarkly Client-Side ID
+- The LaunchDarkly integration is REQUIRED for this application to function properly
+- The application will not show the Flight Status tab without a working LaunchDarkly connection
+- Ensure your `.env` file contains a valid LaunchDarkly Client-Side ID before starting the application
+- If you see errors about "LaunchDarkly client ID not found" in your console, check that your `.env` file is set up correctly
 - Feature flags will only work if LaunchDarkly can be reached from your environment
 - If working behind a corporate firewall, ensure outbound connections to `clientstream.launchdarkly.com` are allowed
 - For testing on localhost, you may need to configure targeting rules in your LaunchDarkly dashboard to ensure your local users receive the correct flag values
-- When testing locally, check browser console logs for any LaunchDarkly connection errors
 
 ## Running the Application
 
