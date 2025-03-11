@@ -4,9 +4,8 @@ import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
 import App from "./App";
 import "./index.css";
 
-// Load from .env file and maintain fallback for resilience
-// Using direct environment variable access with fallback for reliability
-const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID || '67ce189f69541009d2700800';
+// Load from .env file without fallback to test environment variable loading
+const LAUNCHDARKLY_CLIENT_ID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
 
 async function initLD() {
   try {
