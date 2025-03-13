@@ -3,6 +3,8 @@
 
 This is a full-stack web application built with React, TypeScript, Express, and Vite.
 
+Part 1: Release and Remediate & Part 2: Target (Completed)
+
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
