@@ -75,6 +75,7 @@ This flag controls the visibility of the Deals option in the navigation menu.
 - **Configuration**: Target-based rules using the `isPremium` user attribute
 - **Targeting Rules**:
   - Create a rule targeting users where `isPremium` is `true`
+  - Rule input parameters - Context kind: 'user'; Attribute: 'isPremium'; Operator: 'is one of'; Values: 'true'
   - Serve `true` variation to premium users
   - Default rule: Serve `false` variation to all other users
 - **Implementation**: The button only appears for premium users
