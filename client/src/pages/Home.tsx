@@ -8,14 +8,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Home() {
   // Safely access flags with a fallback
   let showFlightStatus = false;
+  let displayDestinations = false;
   // Get client ID directly from .env without fallback
   const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
   
   try {
     const flags = useFlags();
     showFlightStatus = flags.showFlightStatus ?? false;
+    displayDestinations = flags.displayDestinations ?? false;
     console.log('LaunchDarkly flags loaded:', flags);
     console.log('showFlightStatus flag value:', showFlightStatus);
+    console.log('displayDestinations flag value:', displayDestinations);
     console.log('Using LaunchDarkly client ID:', clientID);
     
     if (!clientID) {
@@ -77,11 +80,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Popular Destinations */}
-        <div className="container mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold mb-8">Popular Destinations</h2>
-          <PopularDestinations />
-        </div>
+        {/* Popular Destinations - controlled by displayDestinations feature flag */}
+        {displayDestinations && (
+          <div className="container mx-auto px-4 py-16">
+            <h2 className="text-3xl font-bold mb-8">Popular Destinations</h2>
+            <PopularDestinations />
+          </div>
+        )}
       </main>
     </div>
   );

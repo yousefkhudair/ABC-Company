@@ -26,11 +26,21 @@ async function initLD() {
       options: {
         bootstrap: "localStorage",
         baseUrl: "https://app.launchdarkly.com",
-        streaming: true
+        streaming: true,
+        privateAttributes: [],
+        allAttributesPrivate: false
       },
       flags: {
         showFlightStatus: false,
+        showDealsButton: false,
+        displayDestinations: false,
       },
+      context: {
+        kind: 'user',
+        key: localStorage.getItem("user_id") || `anonymous-${Math.random().toString(36).substring(2, 15)}`,
+        isPremium: false,
+        anonymous: true
+      }
     } as any);
 
     render(LDProvider);

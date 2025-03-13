@@ -1,3 +1,4 @@
+
 # Airline Navigator Web Application
 
 This is a full-stack web application built with React, TypeScript, Express, and Vite.
@@ -45,7 +46,10 @@ This project uses LaunchDarkly for feature flagging. To set it up:
 
 1. Create a LaunchDarkly account at [launchdarkly.com](https://launchdarkly.com)
 2. Create a new project in LaunchDarkly dashboard
-3. Create a feature flag named `showFlightStatus` (boolean type)
+3. Create the following feature flags:
+   - `showFlightStatus` (boolean type)
+   - `showDealsButton` (boolean type)
+   - `displayDestinations` (boolean type)
 4. Obtain your Client-Side ID from your LaunchDarkly project settings
 5. Open the `.env` file and replace the placeholder with your actual LaunchDarkly Client-Side ID:
    ```
@@ -53,6 +57,17 @@ This project uses LaunchDarkly for feature flagging. To set it up:
    ```
 
 This application uses `dotenv` to reliably load environment variables in both development and production environments. The server-side code will automatically load variables from your `.env` file.
+
+### User Context and Targeting
+
+The application includes user context for targeting with the following attributes:
+- User types:
+  - Internal users (key: 'internal-user')
+  - Anonymous users (key: 'anonymous-user')
+- Custom attributes:
+  - `isPremium`: Boolean attribute for premium user status
+
+The header includes toggles to switch between user types and premium status, which automatically updates the LaunchDarkly context for targeting rules.
 
 **Important for Local Development:**
 - The LaunchDarkly integration is REQUIRED for this application to function properly
@@ -62,6 +77,9 @@ This application uses `dotenv` to reliably load environment variables in both de
 - Feature flags will only work if LaunchDarkly can be reached from your environment
 - If working behind a corporate firewall, ensure outbound connections to `clientstream.launchdarkly.com` are allowed
 - For testing on localhost, you may need to configure targeting rules in your LaunchDarkly dashboard to ensure your local users receive the correct flag values
+- When setting up targeting rules, use the appropriate context attributes:
+  - For premium status: use `kind: user` and attribute: `isPremium`
+  - For internal users: check for key `internal-user`
 
 ## Running the Application
 
