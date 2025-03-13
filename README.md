@@ -1,5 +1,5 @@
 
-# Airline Navigator Web Application
+# ABC Company Web Application
 
 This is a full-stack web application built with React, TypeScript, Express, and Vite.
 
@@ -33,7 +33,7 @@ Before you begin, ensure you have the following installed:
    npm install
    ```
 
-3. Create environment file:
+3. Create environment file (Run in root directory):
    ```bash
    cp .env.example .env
    ```
@@ -56,7 +56,39 @@ This project uses LaunchDarkly for feature flagging. To set it up:
    VITE_LAUNCHDARKLY_CLIENT_ID=your-client-side-id
    ```
 
-This application uses `dotenv` to reliably load environment variables in both development and production environments. The server-side code will automatically load variables from your `.env` file.
+### Feature Flag Configuration in LaunchDarkly
+
+Each feature flag should be configured as follows:
+
+#### `showFlightStatus` Flag
+
+This flag controls whether the Flight Status tab appears in the booking section.
+
+- **Configuration**: Simple on/off toggle without targeting rules
+- **Default Rule**: Set to `true` to show the Flight Status tab for all users
+- **Implementation**: No specific targeting rules needed; applies globally to all users
+
+#### `showDealsButton` Flag
+
+This flag controls the visibility of the Deals option in the navigation menu.
+
+- **Configuration**: Target-based rules using the `isPremium` user attribute
+- **Targeting Rules**:
+  - Create a rule targeting users where `isPremium` is `true`
+  - Serve `true` variation to premium users
+  - Default rule: Serve `false` variation to all other users
+- **Implementation**: The button only appears for premium users
+
+#### `displayDestinations` Flag
+
+This flag controls the visibility of the Popular Destinations section on the home page.
+
+- **Configuration**: Individual targeting using specific user keys
+- **Targeting Rules**:
+  - Configure individual target for user key `internal-user`
+  - Serve `true` variation to internal users
+  - Default rule: Serve `false` variation to all other users
+- **Implementation**: The section only appears for internal users
 
 ### User Context and Targeting
 
@@ -67,19 +99,23 @@ The application includes user context for targeting with the following attribute
 - Custom attributes:
   - `isPremium`: Boolean attribute for premium user status
 
-The header includes toggles to switch between user types and premium status, which automatically updates the LaunchDarkly context for targeting rules.
+The header includes toggles to switch between user types (anon/internal_user) and premium status, which automatically updates the LaunchDarkly context for targeting rules.
+
+#### Testing with Different User Contexts
+
+Use the toggle buttons in the application header to switch between:
+- **Standard/Premium**: Toggles the `isPremium` attribute (affects `showDealsButton` flag)
+- **Anon/Internal_User**: Toggles between anonymous and internal user keys (affects `displayDestinations` flag)
 
 **Important for Local Development:**
 - The LaunchDarkly integration is REQUIRED for this application to function properly
-- The application will not show the Flight Status tab without a working LaunchDarkly connection
+- The application will not show the Flight Status tab, Deals button in header, or Popular Destinations Section without a working LaunchDarkly connection
 - Ensure your `.env` file contains a valid LaunchDarkly Client-Side ID before starting the application
 - If you see errors about "LaunchDarkly client ID not found" in your console, check that your `.env` file is set up correctly
 - Feature flags will only work if LaunchDarkly can be reached from your environment
 - If working behind a corporate firewall, ensure outbound connections to `clientstream.launchdarkly.com` are allowed
-- For testing on localhost, you may need to configure targeting rules in your LaunchDarkly dashboard to ensure your local users receive the correct flag values
-- When setting up targeting rules, use the appropriate context attributes:
-  - For premium status: use `kind: user` and attribute: `isPremium`
-  - For internal users: check for key `internal-user`
+- Make sure the client ID in your `.env` file is correct and not truncated (should be the full 24-character ID)
+- When setting up targeting rules in LaunchDarkly dashboard, use exactly the same attribute names and values as shown above
 
 ## Running the Application
 
@@ -97,17 +133,28 @@ This will start the server on the port specified in your `.env` file (default: 5
 ├── client/               # Frontend code
 │   ├── public/           # Static assets
 │   ├── src/              # React components and logic
+│   │   ├── components/   # Reusable UI components
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── lib/          # Utility functions and shared logic
+│   │   ├── pages/        # Page components
+│   │   ├── App.tsx       # Main application component
+│   │   └── main.tsx      # Application entry point with LaunchDarkly setup
 │   └── index.html        # HTML entry point
 ├── server/               # Backend code
 │   ├── index.ts          # Express server setup
 │   ├── routes.ts         # API routes
-│   └── storage.ts        # Data storage logic
+│   ├── storage.ts        # Data storage logic
+│   └── vite.ts           # Server-side Vite configuration
 ├── shared/               # Shared code between frontend and backend
 │   └── schema.ts         # Data schemas
+├── .env                  # Environment variables
+├── .env.example          # Example environment file
+├── drizzle.config.ts     # Drizzle ORM configuration
 ├── package.json          # Project dependencies and scripts
+├── postcss.config.js     # PostCSS configuration
+├── tailwind.config.ts    # Tailwind CSS configuration
 ├── tsconfig.json         # TypeScript configuration
-├── vite.config.ts        # Vite configuration
-└── tailwind.config.ts    # Tailwind CSS configuration
+└── vite.config.ts        # Vite configuration
 ```
 
 ## Technologies Used
@@ -134,7 +181,7 @@ This will start the server on the port specified in your `.env` file (default: 5
 
 ## Additional Information
 
-The server runs on port 5000 by default. You can customize this by setting the `PORT` environment variable in your `.env` file.
+The server runs on port 5000 by default. You can customize this by setting the `PORT` environment variable in your `.env` file. See .env.example for reference.
 
 ## License
 

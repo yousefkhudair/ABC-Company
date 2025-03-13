@@ -15,7 +15,6 @@ async function initLD() {
     
     // Check for LaunchDarkly client ID with fallback
     const clientID = LAUNCHDARKLY_CLIENT_ID;
-    console.log("LaunchDarkly Client ID with fallback:", clientID);
     
     if (!clientID) {
       throw new Error("LaunchDarkly client ID not found. Please ensure you have set VITE_LAUNCHDARKLY_CLIENT_ID in your .env file.");
