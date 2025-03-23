@@ -9,7 +9,7 @@ export default function Home() {
   // Safely access flags with a fallback
   let showFlightStatus = false;
   let displayDestinations = false;
-  // Get client ID directly from .env
+  // Get client ID directly from .env without fallback
   const clientID = import.meta.env.VITE_LAUNCHDARKLY_CLIENT_ID;
   
   try {
@@ -17,7 +17,6 @@ export default function Home() {
     showFlightStatus = flags.showFlightStatus ?? false;
     displayDestinations = flags.displayDestinations ?? false;
     console.log('LaunchDarkly flags loaded:', flags);
-
     console.log('Using LaunchDarkly client ID:', clientID);
     
     if (!clientID) {

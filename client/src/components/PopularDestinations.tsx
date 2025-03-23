@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { useBookingForm } from "@/lib/useBookingForm";
+import { useLDClient } from "launchdarkly-react-client-sdk";
 
 const destinations = [
   {
@@ -31,6 +32,7 @@ const destinations = [
 ];
 
 export default function PopularDestinations() {
+  const ldClient = useLDClient();
   const { setDestination } = useBookingForm();
 
   return (
@@ -41,6 +43,15 @@ export default function PopularDestinations() {
           variant="ghost"
           className="p-0 h-auto hover:bg-transparent"
           onClick={() => {
+            if(ldClient){
+                ldClient.track('destination_clicked', {
+                destinationName: destination.name,
+                destinationPrice: destination.price
+                  
+              });
+              console.log(destination.name);
+            }
+            
             setDestination(destination.name.split(',')[0]); // Only use the city name
             // Scroll to booking form
             document.querySelector('[value="book"]')?.scrollIntoView({ 

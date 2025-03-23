@@ -60,8 +60,7 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use environment variable for port or fallback to 5000
-  // this serves both the API and the client
+  
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
   server.listen({
     port,
